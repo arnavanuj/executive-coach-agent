@@ -11,9 +11,8 @@ class ExecutiveCoachAgent:
         with open("app/prompts/coach_prompt.txt", "r") as f:
             return f.read()
 
+    # NORMAL RESPONSE
     def run(self, user_input):
-
-        print("Running Executive Coach Agent...")
 
         messages = [
             {"role": "system", "content": self.system_prompt},
@@ -26,3 +25,21 @@ class ExecutiveCoachAgent:
         )
 
         return response["message"]["content"]
+
+
+    # STREAMING RESPONSE
+    def run_stream(self, user_input):
+
+        messages = [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": user_input}
+        ]
+
+        stream = ollama.chat(
+            model=self.model,
+            messages=messages,
+            stream=True
+        )
+
+        for chunk in stream:
+            yield chunk["message"]["content"]
