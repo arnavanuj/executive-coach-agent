@@ -1,8 +1,15 @@
+from unittest.mock import patch
 from app.agents.executive_coach import ExecutiveCoachAgent
 
 
-def test_agent_initialization():
+@patch("ollama.chat")
+def test_agent_run(mock_chat):
+
+    mock_chat.return_value = {
+        "message": {"content": "Test response"}
+    }
 
     agent = ExecutiveCoachAgent()
+    response = agent.run("Hello")
 
-    assert agent is not None
+    assert response == "Test response"
