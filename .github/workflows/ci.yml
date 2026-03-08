@@ -26,6 +26,7 @@ jobs:
 
       - name: Run Tests
         run: |
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           pytest
 
       - name: Verify FastAPI App Loads
