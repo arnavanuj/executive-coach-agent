@@ -1,25 +1,25 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
-from app.agents.executive_coach import ExecutiveCoachAgent
+from app.orchestrator.agent_graph import build_graph
 
 router = APIRouter()
 
-# request structure
+graph = build_graph()
+
+
 class CoachRequest(BaseModel):
     message: str
 
 
-# response structure
 class CoachResponse(BaseModel):
     response: str
-
-
-agent = ExecutiveCoachAgent()
 
 
 @router.post("/coach", response_model=CoachResponse)
 def coach_endpoint(request: CoachRequest):
 
-    result = agent.run(request.message)
+    result = graph.invoke({
+        "user_input": request.message
+    })
 
-    return CoachResponse(response=result)
+    return CoachResponse(response=result["response"])
