@@ -1,4 +1,5 @@
 # \# Executive Coaching Platform (MVP)
+A working MVP of an AI-powered executive coaching assistant that simulates structured leadership coaching conversations.
 
 # 
 
